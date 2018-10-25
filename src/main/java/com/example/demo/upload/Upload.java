@@ -1,8 +1,6 @@
 package com.example.demo.upload;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -17,7 +15,19 @@ import java.util.Iterator;
 @RestController
 public class Upload {
 
-    @RequestMapping("springUpload")
+
+    /**
+     * 上传接口
+     *
+     * @param request
+     * @return
+     * @throws IllegalStateException
+     * @throws IOException
+     */
+    @RequestMapping(value = "springUpload")
+//    @RequestMapping(value = "springUpload",method = RequestMethod.GET)
+   /* @PostMapping
+    @GetMapping*/
     public String springUpload(HttpServletRequest request) throws IllegalStateException, IOException {
         long startTime = System.currentTimeMillis();
         //将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
@@ -47,6 +57,12 @@ public class Upload {
         return "/success";
     }
 
+    /**
+     * 获取文件列表
+     *
+     * @param url
+     * @return getFileList  地址拼接    path  请求参数
+     */
     @RequestMapping("getFileList")
     public ArrayList<FileBean> getFileList(@RequestParam("path") String url) {
         File file = new File(url);
@@ -61,6 +77,14 @@ public class Upload {
         return fileBeans;
     }
 
+    /**
+     * 下载接口
+     *
+     * @param filePath
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping("down")
     public static void download(@RequestParam("downUrl") String filePath,
                                 HttpServletRequest request, HttpServletResponse response)
